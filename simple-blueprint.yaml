@@ -10,13 +10,13 @@ inputs:
   host_ip_mongod:
       description: >
         The ip of the host the mongod will be deployed on
-      default: 127.0.0.1
+      default: 10.8.1.187
 
 
   host_ip_nodecellar:
       description: >
         The ip of the host the nodecellar will be deployed on
-      default: 127.0.0.2
+      default: 10.8.1.221
 
   agent_user:
       description: >
@@ -27,7 +27,7 @@ inputs:
       description: >
         Path to a private key that resided on the management machine.
         SSH-ing into agent machines will be done with this key.
-      default: ~/.ssh/agent_key.pem
+      default: /home/centos/work/shay-cloudify.pem
 
   install_agent:
       description: >
