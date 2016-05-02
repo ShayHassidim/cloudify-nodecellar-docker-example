@@ -138,7 +138,5 @@ outputs:
   endpoint:
     description: Web application endpoint
     value:
-      ip_address: { get_attribute: [ host, ip ] }
+      ip_address: { get_attribute: [ host_nodecellar, ip ] }
       port: { get_input: web_port }
-
-
