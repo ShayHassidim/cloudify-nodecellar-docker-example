@@ -131,6 +131,8 @@ node_templates:
               links:
                  mongod: { get_property: [ mongod_container, name ] }
               port_bindings: { get_input: nodecellar_container_port_bindings }
+              extra_hosts:
+                mongod: { get_attribute: [ host_mongod, ip ] }
     relationships:
       - type: cloudify.relationships.contained_in
         target: host_nodecellar
