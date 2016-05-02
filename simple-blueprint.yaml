@@ -7,10 +7,16 @@ imports:
 
 inputs:
 
-  host_ip:
+  host_ip_mongod:
       description: >
-        The ip of the host the application will be deployed on
+        The ip of the host the mongod will be deployed on
       default: 127.0.0.1
+
+
+  host_ip_nodecellar:
+      description: >
+        The ip of the host the nodecellar will be deployed on
+      default: 127.0.0.2
 
   agent_user:
       description: >
@@ -58,11 +64,21 @@ inputs:
 
 node_templates:
 
-  host:
+  host_mongod:
     type: cloudify.nodes.Compute
     properties:
       install_agent: { get_input: install_agent }
-      ip: { get_input: host_ip }
+      ip: { get_input: host_ip_mongod }
+      cloudify_agent:
+        user: { get_input: agent_user }
+        key: { get_input: agent_private_key_path }
+
+
+  host_nodecellar:
+    type: cloudify.nodes.Compute
+    properties:
+      install_agent: { get_input: install_agent }
+      ip: { get_input: host_ip_nodecellar }
       cloudify_agent:
         user: { get_input: agent_user }
         key: { get_input: agent_private_key_path }
@@ -88,7 +104,7 @@ node_templates:
               port_bindings: { get_input: mongo_container_port_bindings }
     relationships:
       - type: cloudify.relationships.contained_in
-        target: host
+        target: host_mongod
 
   nodecellar_container:
     type: nodecellar.nodes.NodecellarContainer
@@ -114,7 +130,7 @@ node_templates:
               port_bindings: { get_input: nodecellar_container_port_bindings }
     relationships:
       - type: cloudify.relationships.contained_in
-        target: host
+        target: host_nodecellar
       - type: cloudify.relationships.depends_on
         target: mongod_container
 
